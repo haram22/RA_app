@@ -8,6 +8,9 @@ import '../screen_manager/alarm_detail.dart';
 import '../screen_manager/manager_home.dart';
 import '../screen_manager/work_detail.dart';
 import '../screen_worker/setting_w.dart';
+import 'home_manager.dart';
+
+enum SingingCharacter { ten, fifteen, twenty, none }
 
 class Home_w extends StatefulWidget {
   const Home_w({super.key});
@@ -17,6 +20,7 @@ class Home_w extends StatefulWidget {
 }
 
 class _Home_wState extends State<Home_w> {
+  SingingCharacter? _character = SingingCharacter.ten;
   bool _isChecked1 = false;
   bool _isChecked2 = false;
   DatePickerController _controller = DatePickerController();
@@ -144,44 +148,7 @@ class _Home_wState extends State<Home_w> {
                       ListTile(
                         dense: true,
                         visualDensity: VisualDensity(vertical: -4),
-                        onTap: () {
-
-                          showModalBottomSheet<void>(
-                              isScrollControlled: true,
-                              context: context,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadiusDirectional.only(
-                                  topEnd: Radius.circular(25),
-                                  topStart: Radius.circular(25),
-                                ),
-                              ),
-                              builder: (BuildContext context) {
-                                return Container(
-                                  padding: const EdgeInsets.all(20),
-                                  height: MediaQuery.of(context).size.height*0.4,
-                                  child: Column(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: <Widget>[
-                                      const Text(
-                                        '안전모를 꼭 착용하고 작업하시기 바랍니다.',
-                                        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-                                      ),
-                                      SizedBox(height: 40),
-                                      Container(
-                                        height: 100,
-                                        child: Text('공지 상세 내용'),
-                                      ),
-                                      ElevatedButton(
-                                            child: const Text('확인'),
-                                            onPressed: () => Navigator.pop(context),
-                                          ),
-                                    ],
-                                  ),
-                                );
-                              }
-                          );
-
-                        },
+                        onTap: () {},
                         title: Text(
                           "✔️ 작업 시 안전모를 꼭 착용하세요.",
                           style: TextStyle(fontSize: 13),
@@ -224,7 +191,65 @@ class _Home_wState extends State<Home_w> {
                                     builder: (context) => TaskDetails()));
                           },
                           trailing: IconButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              showModalBottomSheet<void>(
+                                enableDrag: true,
+                                isScrollControlled: true,
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.only(
+                                        topLeft: Radius.circular(30.0),
+                                        topRight: Radius.circular(30.0))),
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return StatefulBuilder(builder:
+                                      (BuildContext context,
+                                          StateSetter setState) {
+                                    return Container(
+                                      height: 300,
+                                      padding: EdgeInsets.fromLTRB(0, 20, 0, 0),
+                                      child: Column(
+                                        children: <Widget>[
+                                          RadioListTile(
+                                              title: Text("10분 전에 알리기"),
+                                              value: SingingCharacter.ten,
+                                              groupValue: _character,
+                                              onChanged: (value) {
+                                                _character = value;
+                                              }),
+                                          RadioListTile(
+                                              title: Text("15분 전에 알리기"),
+                                              value: SingingCharacter.fifteen,
+                                              groupValue: _character,
+                                              onChanged: (value) {
+                                                _character = value;
+                                              }),
+                                          RadioListTile(
+                                              title: Text("20분 전에 알리기"),
+                                              value: SingingCharacter.twenty,
+                                              groupValue: _character,
+                                              onChanged: (value) {
+                                                _character = value;
+                                              }),
+                                          RadioListTile(
+                                              title: Text("없음"),
+                                              value: SingingCharacter.none,
+                                              groupValue: _character,
+                                              onChanged: (value) {
+                                                _character = value;
+                                              }),
+                                          OutlinedButton(
+                                            onPressed: () {
+                                              Navigator.pop(context);
+                                            },
+                                            child: Text("저장"),
+                                          )
+                                        ],
+                                      ),
+                                    );
+                                  });
+                                },
+                              );
+                            },
                             icon: Icon(Icons.more_horiz_rounded),
                           ),
                           leading: Icon(
@@ -247,7 +272,65 @@ class _Home_wState extends State<Home_w> {
                                     builder: (context) => TaskDetails()));
                           },
                           trailing: IconButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              showModalBottomSheet<void>(
+                                enableDrag: true,
+                                isScrollControlled: true,
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.only(
+                                        topLeft: Radius.circular(30.0),
+                                        topRight: Radius.circular(30.0))),
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return StatefulBuilder(builder:
+                                      (BuildContext context,
+                                          StateSetter setState) {
+                                    return Container(
+                                      height: 300,
+                                      padding: EdgeInsets.fromLTRB(0, 20, 0, 0),
+                                      child: Column(
+                                        children: <Widget>[
+                                          RadioListTile(
+                                              title: Text("10분 전에 알리기"),
+                                              value: SingingCharacter.ten,
+                                              groupValue: _character,
+                                              onChanged: (value) {
+                                                _character = value;
+                                              }),
+                                          RadioListTile(
+                                              title: Text("15분 전에 알리기"),
+                                              value: SingingCharacter.fifteen,
+                                              groupValue: _character,
+                                              onChanged: (value) {
+                                                _character = value;
+                                              }),
+                                          RadioListTile(
+                                              title: Text("20분 전에 알리기"),
+                                              value: SingingCharacter.twenty,
+                                              groupValue: _character,
+                                              onChanged: (value) {
+                                                _character = value;
+                                              }),
+                                          RadioListTile(
+                                              title: Text("없음"),
+                                              value: SingingCharacter.none,
+                                              groupValue: _character,
+                                              onChanged: (value) {
+                                                _character = value;
+                                              }),
+                                          OutlinedButton(
+                                            onPressed: () {
+                                              Navigator.pop(context);
+                                            },
+                                            child: Text("저장"),
+                                          )
+                                        ],
+                                      ),
+                                    );
+                                  });
+                                },
+                              );
+                            },
                             icon: Icon(Icons.more_horiz_rounded),
                           ),
                           leading: Icon(
@@ -285,62 +368,6 @@ class _Home_wState extends State<Home_w> {
                               "📑 내가 추가한 일",
                               style:
                                   TextStyle(color: Colors.black, fontSize: 17),
-                            ),
-                            IconButton(
-                              onPressed: () {
-                                showModalBottomSheet<void>(
-                                    isScrollControlled: true,
-                                    context: context,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadiusDirectional.only(
-                                        topEnd: Radius.circular(25),
-                                        topStart: Radius.circular(25),
-                                      ),
-                                    ),
-                                    builder: (BuildContext context) {
-                                      return Container(
-                                        padding: const EdgeInsets.all(20),
-                                        height: MediaQuery.of(context).size.height*0.4,
-                                        child: Column(
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: <Widget>[
-                                            const Text(
-                                                '나의 할 일 추가하기',
-                                                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-                                            ),
-                                            SizedBox(height: 40),
-                                            Container(
-                                              height: 100,
-                                              child: TextField(
-                                                    decoration: InputDecoration(
-                                                    border: UnderlineInputBorder(),
-                                                    filled: true,
-                                                    fillColor: Colors.grey[100],
-                                                    labelText: '할 일을 추가하기',
-                                                  )
-                                              ),
-                                            ),
-                                            Row(
-                                              mainAxisAlignment: MainAxisAlignment.end,
-                                              children: <Widget> [
-                                                ElevatedButton(
-                                                  child: const Text('취소'),
-                                                  onPressed: () => Navigator.pop(context),
-                                                ),
-                                                SizedBox(width: 20),
-                                                ElevatedButton(
-                                                  child: const Text('저장'),
-                                                  onPressed: () => Navigator.pop(context),
-                                                ),
-                                              ],
-                                            ),
-                                          ],
-                                        ),
-                                      );
-                                    }
-                                );
-                              },
-                              icon: Icon(Icons.add),
                             ),
                             Spacer()
                           ],
