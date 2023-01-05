@@ -64,231 +64,231 @@ class _Home_mState extends State<Home_m> {
           ],
         ),
         body: Padding(
-          padding: EdgeInsets.only(top: 20, left: 20.0, right: 20),
-          child: Column(
-            children: [
-
-              Image.asset(
-                'assets/profile.png',
-                width: 50,
-              ),
-              SizedBox(width: 10,)
-            ],
-          )
-        ],
-      ),
-      body: Padding(
-        padding: EdgeInsets.only(top: 20, left: 20.0, right: 20),
-        child: Column(
-          children: [
-            Text("00님! 오늘 하루도 안전한 하루 되세요 :)",
-              style: TextStyle(fontSize: 15.5),),
-            Container(
-              padding: EdgeInsets.all(20.0),
-              color: Colors.white,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  // Padding(
-                  //   padding: EdgeInsets.all(10),
-                  // ),
-                  //Text(_selectedValue.toString()),
-                  // Padding(
-                  //   padding: EdgeInsets.all(20),
-                  // ),
-                  Container(
-                    child: DatePicker(
-                      DateTime.now(),
-                      // width: 60,
-                      height: 80,
-                      controller: _controller,
-                      initialSelectedDate: DateTime.now(),
-                      selectionColor: Colors.black,
-                      selectedTextColor: Colors.white,
-                      inactiveDates: [
-                        // DateTime.now().add(Duration(days: 3)),
-                        // DateTime.now().add(Duration(days: 4)),
-                        // DateTime.now().add(Duration(days: 7))
-                      ],
-
-                      onDateChange: (date) {
-                        // New date selected
-                        setState(() {
-                          _selectedValue = date;
-                          print("❗️❗️selectedDate: ${_selectedValue}");
-                        });
-                      },
-                    ),
-                  ),
-                ],
-
-              ),
-              Container(
-                padding: EdgeInsets.all(20.0),
-                color: Colors.white,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Container(
-                      child: DatePicker(
-                        DateTime.now(),
-                        // width: 60,
-                        height: 80,
-                        controller: _controller,
-                        initialSelectedDate: DateTime.now(),
-                        selectionColor: Colors.black,
-                        selectedTextColor: Colors.white,
-                        inactiveDates: [
-                          // DateTime.now().add(Duration(days: 3)),
-                          // DateTime.now().add(Duration(days: 4)),
-                          // DateTime.now().add(Duration(days: 7))
-                        ],
-                        onDateChange: (date) {
-                          // New date selected
-                          setState(() {
-                            _selectedValue = date;
-                          });
-                        },
-                      ),
-                    ),
-                  ],
+            padding: EdgeInsets.only(top: 20, left: 20.0, right: 20),
+            child: Column(
+              children: [
+                Image.asset(
+                  'assets/profile.png',
+                  width: 50,
                 ),
-              ),
-              SizedBox(
-                height: 180,
-                width: 400,
-                child: Card(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20),
-                    side: BorderSide(
-                      color: Colors.black,
-                    ),
-                  ),
-                  elevation: 0,
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 18.0, top: 18),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        SizedBox(width: 20),
-                        Text(
-                          "📢 오늘의 공지",
-                          style: TextStyle(color: Colors.red, fontSize: 17),
-                        ),
-                        SizedBox(height: 10),
-                        Text("✔️ 3번 작업장 기계2 부품 고장")
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-              SizedBox(
-                height: 230,
-                width: 400,
-                child: Card(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20),
-                    side: BorderSide(
-                      color: Colors.black,
-                    ),
-                  ),
-                  elevation: 0,
-                  child: Padding(
-                      padding: const EdgeInsets.only(left: 18.0, top: 18),
-                      child: Column(
-                        children: [
-                          Row(
-                            children: [
-                              Text(
-                                "📑 진행상황 확인하기",
-                                style: TextStyle(
-                                    color: Colors.black, fontSize: 17),
-                              ),
-                              Spacer()
-                            ],
-                          ),
-                          ListTile(
-                            trailing: IconButton(
-                              onPressed: () {
-                                showModalBottomSheet<void>(
-                                  enableDrag: true,
-                                  isScrollControlled: true,
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.only(
-                                          topLeft: Radius.circular(30.0),
-                                          topRight: Radius.circular(30.0))),
-                                  context: context,
-                                  builder: (BuildContext context) {
-                                    return StatefulBuilder(builder:
-                                        (BuildContext context,
-                                            StateSetter setState) {
-                                      return Container(
-                                        height: 300,
-                                        padding:
-                                            EdgeInsets.fromLTRB(0, 20, 0, 0),
-                                        child: Column(
-                                          children: <Widget>[
-                                            RadioListTile(
-                                                title: Text("10분 전에 알리기"),
-                                                value: SingingCharacter.ten,
-                                                groupValue: _character,
-                                                onChanged: (value) {
-                                                  _character = value;
-                                                }),
-                                            RadioListTile(
-                                                title: Text("15분 전에 알리기"),
-                                                value: SingingCharacter.fifteen,
-                                                groupValue: _character,
-                                                onChanged: (value) {
-                                                  _character = value;
-                                                }),
-                                            RadioListTile(
-                                                title: Text("20분 전에 알리기"),
-                                                value: SingingCharacter.twenty,
-                                                groupValue: _character,
-                                                onChanged: (value) {
-                                                  _character = value;
-                                                }),
-                                            RadioListTile(
-                                                title: Text("없음"),
-                                                value: SingingCharacter.none,
-                                                groupValue: _character,
-                                                onChanged: (value) {
-                                                  _character = value;
-                                                }),
-                                            OutlinedButton(
-                                              onPressed: () {
-                                                Navigator.pop(context);
-                                              },
-                                              child: Text("저장"),
-                                            )
-                                          ],
-                                        ),
-                                      );
-                                    });
-                                  },
-                                );
-                              },
-                              icon: Icon(Icons.more_horiz_rounded),
-                            ),
-                            leading: Checkbox(
-                                // fillColor: Colors.yellow,
-                                value: _isChecked1,
-                                onChanged: (bool? value) {
-                                  setState(() {
-                                    _isChecked1 = value!;
-                                  });
-                                }),
-                            title: Text("3번 작업장 청소"),
-                          ),
-                        ],
-                      )),
-                ),
-              ),
-            ],
-          ),
-        ),
+                SizedBox(
+                  width: 10,
+                )
+              ],
+            )),
+        // body: Padding(
+        //   padding: EdgeInsets.only(top: 20, left: 20.0, right: 20),
+        //   child: Column(
+        //     children: [
+        //       Text("00님! 오늘 하루도 안전한 하루 되세요 :)",
+        //         style: TextStyle(fontSize: 15.5),),
+        //       Container(
+        //         padding: EdgeInsets.all(20.0),
+        //         color: Colors.white,
+        //         child: Column(
+        //           mainAxisAlignment: MainAxisAlignment.center,
+        //           children: <Widget>[
+        //             // Padding(
+        //             //   padding: EdgeInsets.all(10),
+        //             // ),
+        //             //Text(_selectedValue.toString()),
+        //             // Padding(
+        //             //   padding: EdgeInsets.all(20),
+        //             // ),
+        //             Container(
+        //               child: DatePicker(
+        //                 DateTime.now(),
+        //                 // width: 60,
+        //                 height: 80,
+        //                 controller: _controller,
+        //                 initialSelectedDate: DateTime.now(),
+        //                 selectionColor: Colors.black,
+        //                 selectedTextColor: Colors.white,
+        //                 inactiveDates: [
+        //                   // DateTime.now().add(Duration(days: 3)),
+        //                   // DateTime.now().add(Duration(days: 4)),
+        //                   // DateTime.now().add(Duration(days: 7))
+        //                 ],
+
+        //                 onDateChange: (date) {
+        //                   // New date selected
+        //                   setState(() {
+        //                     _selectedValue = date;
+        //                     print("❗️❗️selectedDate: ${_selectedValue}");
+        //                   });
+        //                 },
+        //               ),
+        //             ),
+        //           ],
+
+        //         ),
+        //         Container(
+        //           padding: EdgeInsets.all(20.0),
+        //           color: Colors.white,
+        //           child: Column(
+        //             mainAxisAlignment: MainAxisAlignment.center,
+        //             children: <Widget>[
+        //               Container(
+        //                 child: DatePicker(
+        //                   DateTime.now(),
+        //                   // width: 60,
+        //                   height: 80,
+        //                   controller: _controller,
+        //                   initialSelectedDate: DateTime.now(),
+        //                   selectionColor: Colors.black,
+        //                   selectedTextColor: Colors.white,
+        //                   inactiveDates: [
+        //                     // DateTime.now().add(Duration(days: 3)),
+        //                     // DateTime.now().add(Duration(days: 4)),
+        //                     // DateTime.now().add(Duration(days: 7))
+        //                   ],
+        //                   onDateChange: (date) {
+        //                     // New date selected
+        //                     setState(() {
+        //                       _selectedValue = date;
+        //                     });
+        //                   },
+        //                 ),
+        //               ),
+        //             ],
+        //           ),
+        //         ),
+        //         SizedBox(
+        //           height: 180,
+        //           width: 400,
+        //           child: Card(
+        //             shape: RoundedRectangleBorder(
+        //               borderRadius: BorderRadius.circular(20),
+        //               side: BorderSide(
+        //                 color: Colors.black,
+        //               ),
+        //             ),
+        //             elevation: 0,
+        //             child: Padding(
+        //               padding: const EdgeInsets.only(left: 18.0, top: 18),
+        //               child: Column(
+        //                 mainAxisAlignment: MainAxisAlignment.start,
+        //                 crossAxisAlignment: CrossAxisAlignment.start,
+        //                 children: [
+        //                   SizedBox(width: 20),
+        //                   Text(
+        //                     "📢 오늘의 공지",
+        //                     style: TextStyle(color: Colors.red, fontSize: 17),
+        //                   ),
+        //                   SizedBox(height: 10),
+        //                   Text("✔️ 3번 작업장 기계2 부품 고장")
+        //                 ],
+        //               ),
+        //             ),
+        //           ),
+        //         ),
+        //         SizedBox(
+        //           height: 230,
+        //           width: 400,
+        //           child: Card(
+        //             shape: RoundedRectangleBorder(
+        //               borderRadius: BorderRadius.circular(20),
+        //               side: BorderSide(
+        //                 color: Colors.black,
+        //               ),
+        //             ),
+        //             elevation: 0,
+        //             child: Padding(
+        //                 padding: const EdgeInsets.only(left: 18.0, top: 18),
+        //                 child: Column(
+        //                   children: [
+        //                     Row(
+        //                       children: [
+        //                         Text(
+        //                           "📑 진행상황 확인하기",
+        //                           style: TextStyle(
+        //                               color: Colors.black, fontSize: 17),
+        //                         ),
+        //                         Spacer()
+        //                       ],
+        //                     ),
+        //                     ListTile(
+        //                       trailing: IconButton(
+        //                         onPressed: () {
+        //                           showModalBottomSheet<void>(
+        //                             enableDrag: true,
+        //                             isScrollControlled: true,
+        //                             shape: RoundedRectangleBorder(
+        //                                 borderRadius: BorderRadius.only(
+        //                                     topLeft: Radius.circular(30.0),
+        //                                     topRight: Radius.circular(30.0))),
+        //                             context: context,
+        //                             builder: (BuildContext context) {
+        //                               return StatefulBuilder(builder:
+        //                                   (BuildContext context,
+        //                                       StateSetter setState) {
+        //                                 return Container(
+        //                                   height: 300,
+        //                                   padding:
+        //                                       EdgeInsets.fromLTRB(0, 20, 0, 0),
+        //                                   child: Column(
+        //                                     children: <Widget>[
+        //                                       RadioListTile(
+        //                                           title: Text("10분 전에 알리기"),
+        //                                           value: SingingCharacter.ten,
+        //                                           groupValue: _character,
+        //                                           onChanged: (value) {
+        //                                             _character = value;
+        //                                           }),
+        //                                       RadioListTile(
+        //                                           title: Text("15분 전에 알리기"),
+        //                                           value: SingingCharacter.fifteen,
+        //                                           groupValue: _character,
+        //                                           onChanged: (value) {
+        //                                             _character = value;
+        //                                           }),
+        //                                       RadioListTile(
+        //                                           title: Text("20분 전에 알리기"),
+        //                                           value: SingingCharacter.twenty,
+        //                                           groupValue: _character,
+        //                                           onChanged: (value) {
+        //                                             _character = value;
+        //                                           }),
+        //                                       RadioListTile(
+        //                                           title: Text("없음"),
+        //                                           value: SingingCharacter.none,
+        //                                           groupValue: _character,
+        //                                           onChanged: (value) {
+        //                                             _character = value;
+        //                                           }),
+        //                                       OutlinedButton(
+        //                                         onPressed: () {
+        //                                           Navigator.pop(context);
+        //                                         },
+        //                                         child: Text("저장"),
+        //                                       )
+        //                                     ],
+        //                                   ),
+        //                                 );
+        //                               });
+        //                             },
+        //                           );
+        //                         },
+        //                         icon: Icon(Icons.more_horiz_rounded),
+        //                       ),
+        //                       leading: Checkbox(
+        //                           // fillColor: Colors.yellow,
+        //                           value: _isChecked1,
+        //                           onChanged: (bool? value) {
+        //                             setState(() {
+        //                               _isChecked1 = value!;
+        //                             });
+        //                           }),
+        //                       title: Text("3번 작업장 청소"),
+        //                     ),
+        //                   ],
+        //                 )),
+        //           ),
+        //         ),
+        //       ],
+        //     ),
+        //   ),
+
         floatingActionButton: SpeedDial(
             animatedIcon: AnimatedIcons.menu_close,
             visible: true,
@@ -296,8 +296,7 @@ class _Home_mState extends State<Home_m> {
             backgroundColor: Colors.indigo.shade900,
             children: [
               SpeedDialChild(
-                  child:
-                      const Icon(Icons.notification_add, color: Colors.indigo),
+                  child: Icon(Icons.notification_add, color: Colors.indigo),
                   label: "공지 올리기",
                   labelStyle: const TextStyle(
                       fontWeight: FontWeight.w500,
@@ -310,7 +309,7 @@ class _Home_mState extends State<Home_m> {
                         MaterialPageRoute(builder: (context) => AddNotice()));
                   }),
               SpeedDialChild(
-                  child: const Icon(
+                  child: Icon(
                     Icons.add_chart,
                     color: Colors.indigo,
                   ),

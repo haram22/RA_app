@@ -46,7 +46,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
 
   late String teamName, content, worker, deadlineDate, deadlineTime;
-  // bool _isChecked  = false;
+  bool _isChecked  = false;
 
   DatePickerController _controller = DatePickerController();
   DateTime _dateTime = DateTime.now();
@@ -416,8 +416,8 @@ class _MyHomePageState extends State<MyHomePage> {
                                           ),
                                         ],
                                       ),
-                                    ],
-                                  ),
+                                    
+                                
                                 );
                               });
                         },
@@ -607,30 +607,8 @@ class _MyHomePageState extends State<MyHomePage> {
             ],
           )
         ],
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        onTap: (index) {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => Manager_home()),
-          );
-        },
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home, color: Color(0xff485ed9)),
-            label: '홈',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.search),
-            label: '진행상황',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.notifications),
-            label: '설정',
-          ),
-        ],
-        selectedItemColor: Color(0xff485ed9),
-      ),
+      )
+     
     );
   }
 }

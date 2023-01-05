@@ -26,13 +26,11 @@ class MyHomePage extends StatefulWidget {
 
   final String title;
 
-
   @override
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -42,68 +40,37 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       body: Center(
         child: Column(
-          children: <Widget> [
+          children: <Widget>[
             ElevatedButton(
               onPressed: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => AddTask())
-                );
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => AddTask()));
               },
               child: Text('업무 추가 바로가기'),
             ),
             ElevatedButton(
               onPressed: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => TaskDetails())
-                );
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => TaskDetails()));
               },
               child: Text('업무 상세보기 바로가기'),
             ),
             ElevatedButton(
               onPressed: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => AddAlarm())
-                );
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => AddAlarm()));
               },
               child: Text('긴급 알림 추가 바로가기'),
             ),
             ElevatedButton(
               onPressed: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => AlarmDetails())
-                );
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => AlarmDetails()));
               },
               child: Text('긴급 알림 상세보기 바로가기'),
             ),
           ],
         ),
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        onTap: (index) {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => login()),
-          );
-        },
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home, color: Color(0xff485ed9)),
-            label: '홈',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.search),
-            label: '진행상황',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.notifications),
-            label: '설정',
-          ),
-        ],
-        selectedItemColor: Color(0xff485ed9),
       ),
     );
   }
