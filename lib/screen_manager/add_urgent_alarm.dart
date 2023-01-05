@@ -1,30 +1,15 @@
 import 'package:flutter/material.dart';
 import './manager_home.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
-late List<dynamic> name = <dynamic>[
-  "김00",
-  "이00",
-  "박00",
-  "정00",
-  "장00",
-  "임00",
-  "고00",
-  "노00",
-  "한00",
-  "나00"
-];
-late List<dynamic> team = <dynamic>[
-  "A팀",
-  "B팀",
-  "C팀",
-  "D팀",
-  "E팀",
-  "F팀",
-  "G팀",
-  "H팀",
-  "I팀",
-  "J팀"
-];
+late List<dynamic> name = <dynamic>["김00", "이00", "박00", "정00"];
+late List<dynamic> team = <dynamic>["A팀", "B팀", "C팀", "D팀"];
+late List<String> selectedTeam = <String>[];
+late List<String> selectedName = <String>[];
+
+late List<bool> isCheckedTeam = <bool>[false, false, false, false];
+late List<bool> isCheckedName = <bool>[false, false, false, false];
+
 
 class AddAlarm extends StatelessWidget {
   const AddAlarm({Key? key}) : super(key: key);
@@ -52,8 +37,14 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  bool _isChecked = false;
+
+  late String teamName, content, worker, deadlineDate, deadlineTime;
+  // bool _isChecked  = false;
+
   DateTime? selectedDate;
+  final inputController1 = TextEditingController();
+  final inputController2 = TextEditingController();
+  final inputController3 = TextEditingController();
 
   @override
   initState() {
@@ -73,64 +64,61 @@ class _MyHomePageState extends State<MyHomePage> {
         children: <Widget>[
           Expanded(
               child: SingleChildScrollView(
-            child: ListBody(
-              children: ListTile.divideTiles(context: context, tiles: [
-                ListTile(
-                  title: Text('부서'),
-                  trailing: IconButton(
-                      onPressed: () {
-                        showModalBottomSheet<void>(
-                            isScrollControlled: true,
-                            context: context,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadiusDirectional.only(
-                                topEnd: Radius.circular(25),
-                                topStart: Radius.circular(25),
-                              ),
-                            ),
-                            builder: (BuildContext context) {
-                              return Container(
-                                padding: const EdgeInsets.all(20),
-                                height:
-                                    MediaQuery.of(context).size.height * 0.7,
-                                child: Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: <Widget>[
-                                    const Text('부서'),
-                                    Expanded(
-                                      child: ListView.builder(
-                                          shrinkWrap: true,
-                                          scrollDirection: Axis.vertical,
-                                          itemCount: team.length,
-                                          itemBuilder: (context, index) {
-                                            return ListTile(
-                                              leading: CircleAvatar(
-                                                backgroundColor: Colors.white,
-                                                backgroundImage: AssetImage(
-                                                    'assets/images/team.png'),
-                                              ),
-                                              title: Text('${team[index]}'),
-                                              trailing: Checkbox(
-                                                checkColor: Colors.white,
-                                                activeColor: Colors.redAccent,
-                                                value: _isChecked,
-                                                onChanged: (bool? value) {
-                                                  setState(() {
-                                                    _isChecked = value!;
-                                                  });
-                                                },
-                                              ),
-                                            );
-                                          }),
-                                    ),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceEvenly,
+
+                child: ListBody(
+                  children: ListTile.divideTiles(
+                      context: context,
+                      tiles: [
+                        ListTile(
+                          title: Text('부서'),
+                          trailing: IconButton(onPressed: () {
+                            showModalBottomSheet<void>(
+                                isScrollControlled: true,
+                                context: context,
+                                shape: const RoundedRectangleBorder(
+                                  borderRadius: BorderRadiusDirectional.only(
+                                    topEnd: Radius.circular(25),
+                                    topStart: Radius.circular(25),
+                                  ),
+                                ),
+                                builder: (BuildContext context) {
+                                  return Container(
+                                    padding: const EdgeInsets.all(20),
+                                    height: MediaQuery.of(context).size.height*0.7,
+                                    child: Column(
+                                      mainAxisSize: MainAxisSize.min,
                                       children: <Widget>[
-                                        ElevatedButton(
-                                          child: const Text('취소'),
-                                          onPressed: () =>
-                                              Navigator.pop(context),
+                                        const Text('부서'),
+                                        Expanded(
+                                          child: ListView.builder(
+                                              shrinkWrap: true,
+                                              scrollDirection: Axis.vertical,
+                                              itemCount: team.length,
+                                              itemBuilder: (context, index) {
+                                                return ListTile(
+                                                  leading: const CircleAvatar(
+                                                    backgroundColor: Colors.white,
+                                                    backgroundImage: AssetImage('assets/images/team.png'),
+                                                  ),
+
+                                                  title: Text('${team[index]}'),
+                                                  trailing: Checkbox(
+                                                    checkColor: Colors.white,
+                                                    activeColor: Colors.redAccent,
+                                                    value: isCheckedTeam[index],
+                                                    onChanged: (bool? value) {
+                                                      setState(() {
+                                                        isCheckedTeam[index] = value!;
+                                                        if(isCheckedTeam[index]) {
+                                                          selectedTeam.add(team[index]);
+                                                        } else selectedTeam.remove(team[index]);
+                                                      });
+                                                    },
+                                                  ),
+                                                );
+                                              }
+                                          ),
+
                                         ),
                                         ElevatedButton(
                                           child: const Text('선택'),
@@ -139,7 +127,32 @@ class _MyHomePageState extends State<MyHomePage> {
                                         ),
                                       ],
                                     ),
-                                  ],
+
+                                  );
+                                }
+                            );
+                          }, icon: Icon(Icons.arrow_forward_ios)),
+                        ),
+                        ListTile(
+                          title: Text('알림 구분: '),
+                          trailing: Container(
+                            width: 280.0,
+                            child: Row(
+                              // mainAxisAlignment: MainAxisAlignment.end,
+                              children: <Widget>[
+                                Expanded(
+                                  // flex: 3,
+                                  child: TextField(
+                                    decoration: const InputDecoration(
+                                      border: OutlineInputBorder(),
+                                    ),
+                                    onChanged: (String? newValue) {
+                                      content = newValue!;
+                                      print(content);
+                                    },
+                                    controller: inputController1,
+                                  ),
+
                                 ),
                               );
                             });
@@ -161,103 +174,105 @@ class _MyHomePageState extends State<MyHomePage> {
                             ),
                           ),
                         ),
-                      ],
-                    ),
-                  ),
-                ),
-                ListTile(
-                  title: Text('알림 명칭: '),
-                  trailing: new Container(
-                    width: 280.0,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: <Widget>[
-                        Expanded(
-                          flex: 3,
-                          child: TextField(
-                            decoration: InputDecoration(
-                              border: OutlineInputBorder(),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                ListTile(
-                  title: Text('업무 내용'),
-                  subtitle: new Container(
-                    width: 280.0,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: <Widget>[
-                        Expanded(
-                          flex: 3,
-                          child: TextField(
-                            decoration: InputDecoration(
-                              border: OutlineInputBorder(),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ), // trailing: Icon(Icons.arrow_forward_ios),
-                ),
-                ListTile(
-                  title: Text('담당자'),
-                  trailing: IconButton(
-                      onPressed: () {
-                        showModalBottomSheet<void>(
-                            isScrollControlled: true,
-                            context: context,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadiusDirectional.only(
-                                topEnd: Radius.circular(25),
-                                topStart: Radius.circular(25),
-                              ),
-                            ),
-                            builder: (BuildContext context) {
-                              return Container(
-                                padding: const EdgeInsets.all(20),
-                                height:
-                                    MediaQuery.of(context).size.height * 0.7,
-                                child: Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: <Widget>[
-                                    const Text('담당자'),
-                                    Expanded(
-                                      child: ListView.builder(
-                                          shrinkWrap: true,
-                                          scrollDirection: Axis.vertical,
-                                          itemCount: name.length,
-                                          itemBuilder: (context, index) {
-                                            return ListTile(
-                                              leading: CircleAvatar(
-                                                backgroundImage: AssetImage(
-                                                    'assets/images/user.png'),
-                                              ),
-                                              title: Text('${name[index]}'),
-                                              trailing: Checkbox(
-                                                checkColor: Colors.white,
-                                                activeColor: Colors.redAccent,
-                                                value: _isChecked,
-                                                onChanged: (bool? value) {
-                                                  setState(() {
-                                                    _isChecked = value!;
-                                                  });
-                                                },
-                                              ),
-                                            );
-                                          }),
+
+                        ListTile(
+                          title: Text('알림 명칭: '),
+                          trailing: Container(
+                            width: 280.0,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: <Widget>[
+                                Expanded(
+                                  flex: 3,
+                                  child: TextField(
+                                    decoration: const InputDecoration(
+                                      border: OutlineInputBorder(),
                                     ),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceEvenly,
+                                    onChanged: (String? newValue) {
+                                      content = newValue!;
+                                      print(content);
+                                    },
+                                    controller: inputController2,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+
+                        ListTile(
+                          title: Text('긴급 공지 내용'),
+                          onTap: () {
+                          },
+                          // trailing: Icon(Icons.arrow_forward_ios),
+                        ),
+                        TextFormField(
+                          decoration: InputDecoration(
+                            border: OutlineInputBorder(),
+                          ),
+                          onChanged: (String? newValue) {
+                            content = newValue!;
+                            print(content);
+                          },
+                          validator: (value) {
+                            if(value!.isEmpty) {
+                              return 'Please enter some text';
+                            }
+                          },
+                          controller: inputController3,
+                          minLines: 1,
+                          maxLines: 5,
+                        ),
+
+                        ListTile(
+                          title: Text('담당자'),
+                          trailing: IconButton(onPressed: () {
+                            showModalBottomSheet<void>(
+                                isScrollControlled: true,
+                                context: context,
+                                shape: const RoundedRectangleBorder(
+                                  borderRadius: BorderRadiusDirectional.only(
+                                    topEnd: Radius.circular(25),
+                                    topStart: Radius.circular(25),
+                                  ),
+                                ),
+                                builder: (BuildContext context) {
+                                  return Container(
+                                    padding: const EdgeInsets.all(20),
+                                    height: MediaQuery.of(context).size.height*0.7,
+                                    child: Column(
+                                      mainAxisSize: MainAxisSize.min,
                                       children: <Widget>[
-                                        ElevatedButton(
-                                          child: const Text('취소'),
-                                          onPressed: () =>
-                                              Navigator.pop(context),
+                                        const Text('담당자'),
+                                        Expanded(
+                                          child: ListView.builder(
+                                              shrinkWrap: true,
+                                              scrollDirection: Axis.vertical,
+                                              itemCount: name.length,
+                                              itemBuilder: (context, index) {
+                                                return ListTile(
+                                                  leading: const CircleAvatar(
+                                                    backgroundImage: AssetImage('assets/images/user.png'),
+                                                  ),
+
+                                                  title: Text('${name[index]}'),
+                                                  trailing: Checkbox(
+                                                    checkColor: Colors.white,
+                                                    activeColor: Colors.redAccent,
+                                                    value: isCheckedName[index],
+                                                    onChanged: (bool? value) {
+                                                      setState(() {
+                                                        isCheckedName[index] = value!;
+                                                        if(isCheckedName[index]) {
+                                                          selectedName.add(name[index]);
+                                                        } else selectedName.remove(name[index]);
+                                                      });
+                                                    },
+                                                  ),
+                                                );
+                                              }
+                                          ),
+
                                         ),
                                         ElevatedButton(
                                           child: const Text('선택'),
@@ -266,47 +281,78 @@ class _MyHomePageState extends State<MyHomePage> {
                                         ),
                                       ],
                                     ),
-                                  ],
-                                ),
-                              );
-                            });
-                      },
-                      icon: Icon(Icons.arrow_forward_ios)),
-                ),
-                ListTile(
-                  title: Text('마감일자'),
-                  trailing: Wrap(
-                    spacing: 25,
-                    children: <Widget>[
-                      TextButton(
-                        onPressed: () {
-                          showModalBottomSheet<void>(
-                              isScrollControlled: true,
-                              context: context,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadiusDirectional.only(
-                                  topEnd: Radius.circular(25),
-                                  topStart: Radius.circular(25),
-                                ),
+
+                                  );
+                                }
+                            );
+                          }, icon: Icon(Icons.arrow_forward_ios)),
+                        ),
+                        ListTile(
+                          title: Text('마감일자'),
+                          trailing: Wrap(
+                            spacing: 25,
+                            children: <Widget>[
+                              TextButton(
+                                onPressed: () {
+                                  showModalBottomSheet<void>(
+                                      isScrollControlled: true,
+                                      context: context,
+                                      shape: const RoundedRectangleBorder(
+                                        borderRadius: BorderRadiusDirectional.only(
+                                          topEnd: Radius.circular(25),
+                                          topStart: Radius.circular(25),
+                                        ),
+                                      ),
+                                      builder: (BuildContext context) {
+                                        return Container(
+                                          padding: const EdgeInsets.all(20),
+                                          height: MediaQuery.of(context).size.height*0.7,
+                                          child: Column(
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: <Widget>[
+                                              const Text('날짜 선택'),
+                                              CalendarDatePicker(
+                                                initialDate: DateTime.now(),
+                                                firstDate: DateTime.now(),
+                                                lastDate: DateTime(2100, 12, 31),
+                                                onDateChanged: (date) {
+                                                  setState(() {
+                                                    selectedDate = date;
+                                                  });
+                                                },
+                                              ),
+                                              Row(
+                                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                                children: <Widget> [
+                                                  ElevatedButton(
+                                                    child: const Text('취소'),
+                                                    onPressed: () => Navigator.pop(context),
+                                                  ),
+                                                  ElevatedButton(
+                                                    child: const Text('선택'),
+                                                    onPressed: () => Navigator.pop(context),
+                                                  ),
+                                                ],
+                                              ),
+                                            ],
+                                          ),
+                                        );
+                                      }
+                                  );
+                                },
+                                child: const Text('날짜 선택'),
                               ),
-                              builder: (BuildContext context) {
-                                return Container(
-                                  padding: const EdgeInsets.all(20),
-                                  height:
-                                      MediaQuery.of(context).size.height * 0.7,
-                                  child: Column(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: <Widget>[
-                                      const Text('날짜 선택'),
-                                      CalendarDatePicker(
-                                        initialDate: DateTime.now(),
-                                        firstDate: DateTime.now(),
-                                        lastDate: DateTime(2100, 12, 31),
-                                        onDateChanged: (date) {
-                                          setState(() {
-                                            selectedDate = date;
-                                          });
-                                        },
+                              TextButton(
+                                onPressed: () {
+                                  showModalBottomSheet<void>(
+                                      isScrollControlled: true,
+                                      context: context,
+                                      shape: const RoundedRectangleBorder(
+                                        borderRadius: BorderRadiusDirectional.only(
+                                          topEnd: Radius.circular(25),
+                                          topStart: Radius.circular(25),
+                                        ),
+
                                       ),
                                       Row(
                                         mainAxisAlignment:
@@ -342,30 +388,22 @@ class _MyHomePageState extends State<MyHomePage> {
                                   topStart: Radius.circular(25),
                                 ),
                               ),
-                              builder: (BuildContext context) {
-                                return Container(
-                                  padding: const EdgeInsets.all(20),
-                                  height:
-                                      MediaQuery.of(context).size.height * 0.7,
-                                  child: Column(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: <Widget>[
-                                      const Text('시간 선택'),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceEvenly,
-                                        children: <Widget>[
-                                          ElevatedButton(
-                                            child: const Text('취소'),
-                                            onPressed: () =>
-                                                Navigator.pop(context),
-                                          ),
-                                          ElevatedButton(
-                                            child: const Text('선택'),
-                                            onPressed: () =>
-                                                Navigator.pop(context),
-                                          ),
-                                        ],
+
+                            ],
+                          ),
+                        ),
+                        ListTile(
+                          title: Text('첨부파일'),
+                          trailing: IconButton(
+                              onPressed: () {
+                                showModalBottomSheet<void>(
+                                    isScrollControlled: true,
+                                    context: context,
+                                    shape: const RoundedRectangleBorder(
+                                      borderRadius: BorderRadiusDirectional.only(
+                                        topEnd: Radius.circular(25),
+                                        topStart: Radius.circular(25),
+
                                       ),
                                     ],
                                   ),
@@ -434,8 +472,50 @@ class _MyHomePageState extends State<MyHomePage> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
-              ElevatedButton(child: Text('취소'), onPressed: () {}),
-              ElevatedButton(child: Text('확인'), onPressed: () {})
+
+              ElevatedButton(
+                  child: Text('취소'),
+                  onPressed: () {
+
+                  }
+              ),
+
+              ElevatedButton(
+                  child: Text('확인'),
+                  onPressed: () {
+                    final managerReference = FirebaseFirestore.instance.collection("관리자").doc("관리자1");
+                    final calendarReference = managerReference.collection("calendar").doc("2023-01-05 00:00:00.000");
+                    final urgentTempReference = calendarReference.collection("공지").doc("긴급");
+                    final urgentReference = urgentTempReference.collection("긴급 바로가기").doc(inputController2.text);
+                    urgentReference.set({
+                      "알림 구분": inputController1.text,
+                      "알림 명칭": inputController2.text,
+                      "content": inputController3.text,
+                      "team": FieldValue.arrayUnion(selectedTeam),
+                      "worker": FieldValue.arrayUnion(selectedName),
+                      "isComplete": "접수",
+                    });
+                    for(String worker in selectedName) {
+                      urgentReference.update({worker: {
+                        'isComplete': "접수",
+                      }});
+
+                      final workerReference = FirebaseFirestore.instance.collection("작업자").doc(worker);
+                      final calReference = workerReference.collection("calendar").doc("2023-01-05 00:00:00.000");
+                      final todayNotice = calReference.collection("오늘의 공지").doc("긴급");
+                      final todayUrgent = todayNotice.collection("긴급 바로가기").doc(inputController2.text);
+                      todayUrgent.set({
+                        "알림 구분": inputController1.text,
+                        "알림 명칭": inputController2.text,
+                        "content": inputController3.text,
+                        "isComplete": "접수",
+                      });
+                    }
+                    print("selectedTeam: " + selectedTeam.toString());
+                    print("selectedName: " + selectedName.toString());
+                  }
+              )
+
             ],
           )
         ],

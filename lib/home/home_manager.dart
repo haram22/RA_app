@@ -67,9 +67,61 @@ class _Home_mState extends State<Home_m> {
           padding: EdgeInsets.only(top: 20, left: 20.0, right: 20),
           child: Column(
             children: [
-              Text(
-                "00님! 오늘 하루도 안전한 하루 되세요 :)",
-                style: TextStyle(fontSize: 15.5),
+
+              Image.asset(
+                'assets/profile.png',
+                width: 50,
+              ),
+              SizedBox(width: 10,)
+            ],
+          )
+        ],
+      ),
+      body: Padding(
+        padding: EdgeInsets.only(top: 20, left: 20.0, right: 20),
+        child: Column(
+          children: [
+            Text("00님! 오늘 하루도 안전한 하루 되세요 :)",
+              style: TextStyle(fontSize: 15.5),),
+            Container(
+              padding: EdgeInsets.all(20.0),
+              color: Colors.white,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  // Padding(
+                  //   padding: EdgeInsets.all(10),
+                  // ),
+                  //Text(_selectedValue.toString()),
+                  // Padding(
+                  //   padding: EdgeInsets.all(20),
+                  // ),
+                  Container(
+                    child: DatePicker(
+                      DateTime.now(),
+                      // width: 60,
+                      height: 80,
+                      controller: _controller,
+                      initialSelectedDate: DateTime.now(),
+                      selectionColor: Colors.black,
+                      selectedTextColor: Colors.white,
+                      inactiveDates: [
+                        // DateTime.now().add(Duration(days: 3)),
+                        // DateTime.now().add(Duration(days: 4)),
+                        // DateTime.now().add(Duration(days: 7))
+                      ],
+
+                      onDateChange: (date) {
+                        // New date selected
+                        setState(() {
+                          _selectedValue = date;
+                          print("❗️❗️selectedDate: ${_selectedValue}");
+                        });
+                      },
+                    ),
+                  ),
+                ],
+
               ),
               Container(
                 padding: EdgeInsets.all(20.0),
