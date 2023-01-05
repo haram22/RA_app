@@ -1,8 +1,3 @@
-// 하람 //
-import 'package:flutter/material.dart';
-import 'package:date_picker_timeline/date_picker_timeline.dart';
-import 'package:date_picker_timeline/date_picker_timeline.dart';
-import 'package:flutter_time_picker_spinner/flutter_time_picker_spinner.dart';
 
 import '../screen_manager/alarm_detail.dart';
 import '../screen_manager/manager_home.dart';
@@ -12,8 +7,8 @@ import 'home_manager.dart';
 
 enum SingingCharacter { ten, fifteen, twenty, none }
 
-class Home_w extends StatefulWidget {
-  const Home_w({super.key});
+
+
 
   @override
   State<Home_w> createState() => _Home_wState();
@@ -577,3 +572,4 @@ class _Home_wState extends State<Home_w> {
     );
   }
 }
+
