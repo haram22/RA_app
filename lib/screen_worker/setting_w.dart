@@ -10,8 +10,10 @@ class setting_w extends StatefulWidget {
   State<setting_w> createState() => _setting_wState();
 }
 
+File? _imagefile;
+
 class _setting_wState extends State<setting_w> {
-  File? _imagefile;
+  // File? _imagefile;
   final ImagePicker _picker = ImagePicker();
   // PickedFile _imageFile;
 
