@@ -77,13 +77,6 @@ class _Home_mState extends State<Home_m> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    // Padding(
-                    //   padding: EdgeInsets.all(10),
-                    // ),
-                    //Text(_selectedValue.toString()),
-                    // Padding(
-                    //   padding: EdgeInsets.all(20),
-                    // ),
                     Container(
                       child: DatePicker(
                         DateTime.now(),
