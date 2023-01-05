@@ -10,6 +10,7 @@ late List<String> selectedName = <String>[];
 late List<bool> isCheckedTeam = <bool>[false, false, false, false];
 late List<bool> isCheckedName = <bool>[false, false, false, false];
 
+
 class AddAlarm extends StatelessWidget {
   const AddAlarm({Key? key}) : super(key: key);
 
@@ -31,14 +32,15 @@ class MyHomePage extends StatefulWidget {
 
   final String title;
 
-
   @override
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+
   late String teamName, content, worker, deadlineDate, deadlineTime;
   // bool _isChecked  = false;
+
   DateTime? selectedDate;
   final inputController1 = TextEditingController();
   final inputController2 = TextEditingController();
@@ -49,6 +51,7 @@ class _MyHomePageState extends State<MyHomePage> {
     super.initState();
     selectedDate = DateTime.now();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -57,10 +60,11 @@ class _MyHomePageState extends State<MyHomePage> {
         centerTitle: true,
         title: Text(widget.title),
       ),
-      body: Column (
-        children: <Widget> [
+      body: Column(
+        children: <Widget>[
           Expanded(
               child: SingleChildScrollView(
+
                 child: ListBody(
                   children: ListTile.divideTiles(
                       context: context,
@@ -114,22 +118,16 @@ class _MyHomePageState extends State<MyHomePage> {
                                                 );
                                               }
                                           ),
+
                                         ),
-                                        Row(
-                                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                          children: <Widget> [
-                                            ElevatedButton(
-                                              child: const Text('취소'),
-                                              onPressed: () => Navigator.pop(context),
-                                            ),
-                                            ElevatedButton(
-                                              child: const Text('선택'),
-                                              onPressed: () => Navigator.pop(context),
-                                            ),
-                                          ],
+                                        ElevatedButton(
+                                          child: const Text('선택'),
+                                          onPressed: () =>
+                                              Navigator.pop(context),
                                         ),
                                       ],
                                     ),
+
                                   );
                                 }
                             );
@@ -154,11 +152,29 @@ class _MyHomePageState extends State<MyHomePage> {
                                     },
                                     controller: inputController1,
                                   ),
+
                                 ),
-                              ],
+                              );
+                            });
+                      },
+                      icon: Icon(Icons.arrow_forward_ios)),
+                ),
+                ListTile(
+                  title: Text('알림 구분: '),
+                  trailing: new Container(
+                    width: 280.0,
+                    child: Row(
+                      // mainAxisAlignment: MainAxisAlignment.end,
+                      children: <Widget>[
+                        Expanded(
+                          // flex: 3,
+                          child: TextField(
+                            decoration: InputDecoration(
+                              border: OutlineInputBorder(),
                             ),
                           ),
                         ),
+
                         ListTile(
                           title: Text('알림 명칭: '),
                           trailing: Container(
@@ -256,22 +272,16 @@ class _MyHomePageState extends State<MyHomePage> {
                                                 );
                                               }
                                           ),
+
                                         ),
-                                        Row(
-                                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                          children: <Widget> [
-                                            ElevatedButton(
-                                              child: const Text('취소'),
-                                              onPressed: () => Navigator.pop(context),
-                                            ),
-                                            ElevatedButton(
-                                              child: const Text('선택'),
-                                              onPressed: () => Navigator.pop(context),
-                                            ),
-                                          ],
+                                        ElevatedButton(
+                                          child: const Text('선택'),
+                                          onPressed: () =>
+                                              Navigator.pop(context),
                                         ),
                                       ],
                                     ),
+
                                   );
                                 }
                             );
@@ -342,37 +352,43 @@ class _MyHomePageState extends State<MyHomePage> {
                                           topEnd: Radius.circular(25),
                                           topStart: Radius.circular(25),
                                         ),
-                                      ),
-                                      builder: (BuildContext context) {
-                                        return Container(
-                                          padding: const EdgeInsets.all(20),
-                                          height: MediaQuery.of(context).size.height*0.7,
-                                          child: Column(
-                                            mainAxisSize: MainAxisSize.min,
-                                            children: <Widget>[
-                                              const Text('시간 선택'),
 
-                                              Row(
-                                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                                children: <Widget> [
-                                                  ElevatedButton(
-                                                    child: const Text('취소'),
-                                                    onPressed: () => Navigator.pop(context),
-                                                  ),
-                                                  ElevatedButton(
-                                                    child: const Text('선택'),
-                                                    onPressed: () => Navigator.pop(context),
-                                                  ),
-                                                ],
-                                              ),
-                                            ],
+                                      ),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceEvenly,
+                                        children: <Widget>[
+                                          ElevatedButton(
+                                            child: const Text('취소'),
+                                            onPressed: () =>
+                                                Navigator.pop(context),
                                           ),
-                                        );
-                                      }
-                                  );
-                                },
-                                child: const Text('시간 선택'),
+                                          ElevatedButton(
+                                            child: const Text('선택'),
+                                            onPressed: () =>
+                                                Navigator.pop(context),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              });
+                        },
+                        child: const Text('날짜 선택'),
+                      ),
+                      TextButton(
+                        onPressed: () {
+                          showModalBottomSheet<void>(
+                              isScrollControlled: true,
+                              context: context,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadiusDirectional.only(
+                                  topEnd: Radius.circular(25),
+                                  topStart: Radius.circular(25),
+                                ),
                               ),
+
                             ],
                           ),
                         ),
@@ -387,54 +403,76 @@ class _MyHomePageState extends State<MyHomePage> {
                                       borderRadius: BorderRadiusDirectional.only(
                                         topEnd: Radius.circular(25),
                                         topStart: Radius.circular(25),
+
                                       ),
-                                    ),
-                                    builder: (BuildContext context) {
-                                      return Container(
-                                        padding: const EdgeInsets.all(20),
-                                        height: MediaQuery.of(context).size.height*0.7,
-                                        child: Column(
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: <Widget>[
-                                            const Text('첨부 파일'),
-                                            MaterialButton (
-                                              onPressed: () {
-
-
-                                              },
-                                              child: Text('파일 선택'),
-                                            ),
-
-                                            Row(
-                                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                              children: <Widget> [
-                                                ElevatedButton(
-                                                  child: const Text('취소'),
-                                                  onPressed: () => Navigator.pop(context),
-                                                ),
-                                                ElevatedButton(
-                                                  child: const Text('선택'),
-                                                  onPressed: () => Navigator.pop(context),
-                                                ),
-                                              ],
-                                            ),
-                                          ],
-                                        ),
-                                      );
-                                    }
+                                    ],
+                                  ),
                                 );
-                              },icon: Icon(Icons.arrow_forward_ios)),
-                        )
-                      ]
-                  ).toList(),
+                              });
+                        },
+                        child: const Text('시간 선택'),
+                      ),
+                    ],
+                  ),
                 ),
-              )
-          ),
+                ListTile(
+                  title: Text('첨부파일'),
+                  trailing: IconButton(
+                      onPressed: () {
+                        showModalBottomSheet<void>(
+                            isScrollControlled: true,
+                            context: context,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadiusDirectional.only(
+                                topEnd: Radius.circular(25),
+                                topStart: Radius.circular(25),
+                              ),
+                            ),
+                            builder: (BuildContext context) {
+                              return Container(
+                                padding: const EdgeInsets.all(20),
+                                height:
+                                    MediaQuery.of(context).size.height * 0.7,
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: <Widget>[
+                                    const Text('첨부 파일'),
+                                    MaterialButton(
+                                      onPressed: () {},
+                                      child: Text('파일 선택'),
+                                    ),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceEvenly,
+                                      children: <Widget>[
+                                        ElevatedButton(
+                                          child: const Text('취소'),
+                                          onPressed: () =>
+                                              Navigator.pop(context),
+                                        ),
+                                        ElevatedButton(
+                                          child: const Text('선택'),
+                                          onPressed: () =>
+                                              Navigator.pop(context),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              );
+                            });
+                      },
+                      icon: Icon(Icons.arrow_forward_ios)),
+                )
+              ]).toList(),
+            ),
+          )),
 
           // const SizedBox(height: 200),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
+
               ElevatedButton(
                   child: Text('취소'),
                   onPressed: () {
@@ -477,11 +515,11 @@ class _MyHomePageState extends State<MyHomePage> {
                     print("selectedName: " + selectedName.toString());
                   }
               )
+
             ],
           )
         ],
       ),
-
       bottomNavigationBar: BottomNavigationBar(
         onTap: (index) {
           Navigator.push(
