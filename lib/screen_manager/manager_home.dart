@@ -72,29 +72,6 @@ class _MyHomePageState extends State<MyHomePage> {
           ],
         ),
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        onTap: (index) {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => login()),
-          );
-        },
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home, color: Color(0xff485ed9)),
-            label: '홈',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.search),
-            label: '진행상황',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.notifications),
-            label: '설정',
-          ),
-        ],
-        selectedItemColor: Color(0xff485ed9),
-      ),
     );
   }
 }

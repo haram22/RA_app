@@ -98,7 +98,7 @@ packages:
       name: firebase_auth
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "4.2.5"
+    version: "4.2.4"
   firebase_auth_platform_interface:
     dependency: transitive
     description:
@@ -246,7 +246,11 @@ packages:
       name: image_picker_ios
       url: "https://pub.dartlang.org"
     source: hosted
+<<<<<<< HEAD
     version: "0.8.6+5"
+=======
+    version: "0.8.6+4"
+>>>>>>> 59aab01af563fe6d9789c57f071dcc098d02320a
   image_picker_platform_interface:
     dependency: transitive
     description:
